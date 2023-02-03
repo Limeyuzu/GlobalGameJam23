@@ -1,3 +1,4 @@
+using Assets.GenericTools.Event;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         targetPosition = transform.position;
+        EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
     }
 
     // Update is called once per frame
@@ -32,44 +34,40 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (canMakeMove("forward"))
                 {
-                    printPosition("forward");
                     targetPosition = transform.position + (transform.forward * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.y++;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (backwardInput)
             {
                 if (canMakeMove("backward"))
                 {
-                    printPosition("backward");
                     targetPosition = transform.position + (-transform.forward * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.y--;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (rightInput)
             {
                 if (canMakeMove("right"))
                 {
-                    printPosition("right");
                     targetPosition = transform.position + (transform.right * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.x++;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (leftInput)
             {
                 if (canMakeMove("left"))
                 {
-                    printPosition("left");
                     targetPosition = transform.position + (-transform.right * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.x--;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
         }

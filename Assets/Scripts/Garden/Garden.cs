@@ -30,6 +30,7 @@ public class Garden : MonoBehaviour
                 var coords = new Vector2Int(x, y);
                 var visualLocation = new Vector3(x, 0, y);
                 var gardenTile = Instantiate(GardenTilePrefab, visualLocation, Quaternion.identity);
+                gardenTile.InitGridPosition(coords);
                 gardenTile.transform.parent = this.transform;
 
                 _gameGrid.Set(coords, gardenTile);
