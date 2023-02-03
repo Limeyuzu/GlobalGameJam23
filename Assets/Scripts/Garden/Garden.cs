@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Garden : MonoBehaviour
 {
-    [SerializeField] Transform Weedy;
-
     private IGameGrid<GardenTile> _gameGrid;
 
     private void Start()
@@ -15,7 +13,7 @@ public class Garden : MonoBehaviour
         {
             Debug.Log(text);
         });
-        _gameGrid = new GameGrid<GardenTile>(10, 20);
+        _gameGrid = new GameGrid<GardenTile>(Globals.GridSizeX, Globals.GridSizeY);
     }
 
     public double GetTotalGrowth() => _gameGrid.Select(g => g.GetGrowthValue()).Sum();
@@ -25,11 +23,10 @@ public class Garden : MonoBehaviour
 
     private void Update()
     {
-        //GrowWeeds();
+        GrowWeeds();
     }
 
     private void GrowWeeds()
     {
-        throw new System.NotImplementedException();
     }
 }

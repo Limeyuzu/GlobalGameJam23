@@ -77,13 +77,13 @@ public class PlayerMovement : MonoBehaviour
     private bool canMakeMove(string moveDirection) 
     {
         if (moveDirection == "forward") {
-            return gridPosition.x < Globals.gridSizeX;
+            return gridPosition.x < Globals.GridSizeX;
         }
         if (moveDirection == "backward") {
             return gridPosition.x != 0;
         }
         if (moveDirection == "left") {
-            return gridPosition.y < Globals.gridSizeY;
+            return gridPosition.y < Globals.GridSizeY;
         }
         if (moveDirection == "right") {
             return gridPosition.y != 0;
