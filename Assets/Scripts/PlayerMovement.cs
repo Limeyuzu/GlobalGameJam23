@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         bool leftInput = Input.GetKey("left");
 
 
+
         if (moveWaitTime >= moveDelay) {
             if (forwardInput) 
             {
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
                     targetPosition = transform.position + (transform.forward * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.x++;
+                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (backwardInput)
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
                     targetPosition = transform.position + (-transform.forward * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.x--;
+                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (rightInput)
@@ -52,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
                     targetPosition = transform.position + (transform.right * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.y--;
+                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (leftInput)
@@ -61,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
                     targetPosition = transform.position + (-transform.right * gridSpacing);
                     moveWaitTime = 0f;
                     gridPosition.y++;
+                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
         }
@@ -74,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         if (moveDirection == "forward") {
             return gridPosition.x < Globals.gridSizeX;
         }
-        if (moveDirection == "backwards") {
+        if (moveDirection == "backward") {
             return gridPosition.x != 0;
         }
         if (moveDirection == "left") {
@@ -84,5 +89,10 @@ public class PlayerMovement : MonoBehaviour
             return gridPosition.y != 0;
         }
         return false;
+    }
+
+    private void printPosition(string key)
+    {
+        print($"{key}:{gridPosition}");
     }
 }
