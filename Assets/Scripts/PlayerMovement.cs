@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         targetPosition = transform.position;
-        gridPosition.Set(Globals.gridSizeX, Globals.gridSizeY);
     }
 
     // Update is called once per frame
@@ -30,27 +29,60 @@ public class PlayerMovement : MonoBehaviour
         if (moveWaitTime >= moveDelay) {
             if (forwardInput) 
             {
-                targetPosition = transform.position + (transform.forward * gridSpacing);
-                moveWaitTime = 0f;
+                if (canMakeMove("forward"))
+                {
+                    targetPosition = transform.position + (transform.forward * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.x++;
+                }
             }
             if (backwardInput)
             {
-                targetPosition = transform.position + (-transform.forward * gridSpacing);
-                moveWaitTime = 0f;
+                if (canMakeMove("backward"))
+                {
+                    targetPosition = transform.position + (-transform.forward * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.x--;
+                }
             }
             if (rightInput)
             {
-                targetPosition = transform.position + (transform.right * gridSpacing);
-                moveWaitTime = 0f;
+                if (canMakeMove("right"))
+                {
+                    targetPosition = transform.position + (transform.right * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.y--;
+                }
             }
             if (leftInput)
             {
-                targetPosition = transform.position + (-transform.right * gridSpacing);
-                moveWaitTime = 0f;
+                if (canMakeMove("left"))
+                {
+                    targetPosition = transform.position + (-transform.right * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.y++;
+                }
             }
         }
         moveWaitTime += Time.deltaTime;
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+    }
+
+    private bool canMakeMove(string moveDirection) 
+    {
+        if (moveDirection == "forward") {
+            return gridPosition.x < Globals.gridSizeX;
+        }
+        if (moveDirection == "backwards") {
+            return gridPosition.x != 0;
+        }
+        if (moveDirection == "left") {
+            return gridPosition.y < Globals.gridSizeY;
+        }
+        if (moveDirection == "right") {
+            return gridPosition.y != 0;
+        }
+        return false;
     }
 }
