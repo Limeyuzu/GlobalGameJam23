@@ -1,5 +1,7 @@
 using Assets.GenericTools.Event;
 using Assets.GenericTools.Grid;
+using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -12,9 +14,25 @@ public class Garden : MonoBehaviour
     private void Start()
     {
         InitGardenTiles();
+        StartCoroutine(updateScore());
     }
 
-    public double GetTotalGrowth() => _gameGrid.Select(g => g.GetGrowthValue()).Sum();
+    IEnumerator updateScore()
+    {
+        while (true)
+        {
+            EventManager.Emit(GameEvent.ScoreIncremented, getCurrentScoreToIncrement());
+
+            // wait for seconds
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private int getCurrentScoreToIncrement()
+    {
+        return (int)Mathf.Floor(GetTotalGrowth()) * 10;
+    }
+    public float GetTotalGrowth() => _gameGrid.Select(g => g.GetGrowthValue()).Sum();
 
     public int Height() => _gameGrid.Height();
     public int Width() => _gameGrid.Width();
