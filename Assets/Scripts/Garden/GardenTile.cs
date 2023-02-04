@@ -7,11 +7,14 @@ public class GardenTile : MonoBehaviour
 {
     [SerializeField] Material DirtMaterial;
     [SerializeField] Material GrassMaterial;
+    [SerializeField] GameObject WeedPrefab;
+    [SerializeField] float GrowRate = 0.1f;
 
     private Vector2Int? _gridPosition;
-    private double _growthValue = 0;
+    [SerializeField] float _growthValue = 0; //private
+    private GameObject _weed;
 
-    public double GetGrowthValue() => _growthValue;
+    public float GetGrowthValue() => _growthValue;
 
     public void InitGridPosition(Vector2Int initPosition)
     {
@@ -41,9 +44,30 @@ public class GardenTile : MonoBehaviour
         _growthValue = 1;
     }
 
+    private void Start()
+    {
+        var visualLocation = new Vector3(_gridPosition.Value.x, 0, _gridPosition.Value.y);
+        _weed = Instantiate(WeedPrefab, visualLocation, Quaternion.identity);
+        _weed.SetActive(false);
+    }
+
     private void Update()
     {
         UpdateMaterial();
+
+        _weed.SetActive(_growthValue > 0);
+
+        if (_growthValue > 0)
+        {
+            Grow();
+        }
+    }
+
+    private void Grow()
+    {
+        _growthValue += GrowRate * Time.deltaTime;
+        var currentScale = _weed.transform.localScale;
+        _weed.transform.localScale = new Vector3(currentScale.x, _growthValue, currentScale.z);
     }
 
     private void UpdateMaterial()
