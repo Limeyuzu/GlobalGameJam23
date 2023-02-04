@@ -28,6 +28,13 @@ public class GardenTile : MonoBehaviour
                     OnPlayerEnter();
                 }
             });
+            EventManager.Subscribe(GameEvent.MowerMoved, (newPosition) =>
+            {
+                if ((Vector2Int)newPosition == _gridPosition)
+                {
+                    OnMowerEnter();
+                }
+            });
         }
     }
 
@@ -39,9 +46,26 @@ public class GardenTile : MonoBehaviour
         }
     }
 
+    public void OnMowerEnter()
+    {
+        if (_growthValue > 0)
+        {
+            CutDownWeed();
+        }
+    }
+
     private void GrowNewWeed()
     {
         _growthValue = 1;
+    }
+
+
+    private void CutDownWeed()
+    {
+        _growthValue = 0;
+        _weed.SetActive(false);
+        var currentScale = _weed.transform.localScale;
+        _weed.transform.localScale = new Vector3(currentScale.x, _growthValue, currentScale.z);
     }
 
     private void Start()

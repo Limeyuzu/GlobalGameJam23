@@ -44,10 +44,6 @@ public class Garden : MonoBehaviour
         {
             Debug.Log(text);
         });
-        EventManager.Subscribe(GameEvent.MowerMoved, (object text) =>
-        {
-            Debug.Log(text);
-        });
     }
 
     private void Update()
