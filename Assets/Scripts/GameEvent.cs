@@ -2,5 +2,7 @@ public enum GameEvent
 {
     PlayerMoved,
     MowerMoved,
-    ScoreIncremented
+    ScoreIncremented,
+    WeedCreated,
+    WeedDestroyed,
 }

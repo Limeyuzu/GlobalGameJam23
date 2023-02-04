@@ -2,6 +2,7 @@ using Assets.GenericTools.Event;
 using Assets.GenericTools.Grid;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,6 +16,26 @@ public class Garden : MonoBehaviour
     {
         InitGardenTiles();
         StartCoroutine(updateScore());
+
+        EventManager.Subscribe(GameEvent.WeedCreated, pos =>
+        {
+            var position = (Vector2Int)pos;
+            var adjacentPositions = _gameGrid.GetAdjacentTilePositions(position);
+
+            foreach (var adjacentPos in adjacentPositions)
+            {
+                if (_gameGrid.Get(adjacentPos).IsGrowing())
+                {
+                    continue; // Ignore checking growing tiles
+                }
+
+                var floodFilledTiles = _gameGrid.GetFloodFilledTiles(adjacentPos, t => t.IsGrowing());
+                if (floodFilledTiles.All(t => !_gameGrid.IsEdgeTile(t.GetPosition())))
+                {
+                    OnTilesEncircled(floodFilledTiles);
+                }
+            }
+        });
     }
 
     IEnumerator updateScore()
@@ -52,6 +73,14 @@ public class Garden : MonoBehaviour
 
                 _gameGrid.Set(coords, gardenTile);
             }
+        }
+    }
+
+    private void OnTilesEncircled(IEnumerable<GardenTile> encircledTiles)
+    {
+        foreach (var tile in encircledTiles)
+        {
+            tile.GrowNewWeed();
         }
     }
 }
