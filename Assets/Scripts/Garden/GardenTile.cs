@@ -50,7 +50,7 @@ public class GardenTile : MonoBehaviour
     {
         if (_growthValue > 0)
         {
-            CutDownWeed();
+            DestroyWeed();
         }
     }
 
@@ -59,8 +59,7 @@ public class GardenTile : MonoBehaviour
         _growthValue = 1;
     }
 
-
-    private void CutDownWeed()
+    private void DestroyWeed()
     {
         _growthValue = 0;
     }
