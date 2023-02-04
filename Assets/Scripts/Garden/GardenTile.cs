@@ -1,9 +1,10 @@
 
 using Assets.GenericTools.Event;
+using Assets.GenericTools.Grid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GardenTile : MonoBehaviour
+public class GardenTile : MonoBehaviour, IGameGridTile
 {
     [SerializeField] Material DirtMaterial;
     [SerializeField] Material GrassMaterial;
@@ -15,6 +16,8 @@ public class GardenTile : MonoBehaviour
     [SerializeField] float _growthValue = 0; //private
 
     public float GetGrowthValue() => _growthValue;
+    public bool IsGrowing() => _growthValue >= 1;
+    public Vector2Int GetPosition() => _gridPosition.Value;
 
     public void InitGridPosition(Vector2Int initPosition)
     {
@@ -40,10 +43,7 @@ public class GardenTile : MonoBehaviour
 
     public void OnPlayerEnter()
     {
-        if (_growthValue <= 0)
-        {
-            GrowNewWeed();
-        }
+        GrowNewWeed();
     }
 
     public void OnMowerEnter(Lawnmower mower)
@@ -62,14 +62,19 @@ public class GardenTile : MonoBehaviour
         }
     }
 
-    private void GrowNewWeed()
+    public void GrowNewWeed()
     {
-        _growthValue = 1;
+        if (!IsGrowing())
+        {
+            _growthValue = 1;
+            EventManager.Emit(GameEvent.WeedCreated, _gridPosition.Value);
+        }
     }
 
     private void DestroyWeed()
     {
         _growthValue = 0;
+        EventManager.Emit(GameEvent.WeedDestroyed, _gridPosition.Value);
     }
 
     private void Start()
@@ -86,7 +91,7 @@ public class GardenTile : MonoBehaviour
 
     private void Grow()
     {
-        if (_growthValue <= 0 || _growthValue >= MaxGrowth)
+        if (!IsGrowing() || _growthValue >= MaxGrowth)
             return;
 
         _growthValue += GrowthRate * Time.deltaTime;
