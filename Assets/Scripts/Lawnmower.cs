@@ -36,10 +36,9 @@ public class Lawnmower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         speed = 0f;
         direction = (Direction)Random.Range(0, 4);
-
+        timeBar.SetMaxBarValue(100);
         Debug.Log(direction.ToString());
         transform.rotation = Quaternion.identity;
         switch (direction)
@@ -80,11 +79,8 @@ public class Lawnmower : MonoBehaviour
         }
         else
         {
-
-        if (speed < topSpeed) speed += accelleration;
-
+            if (speed < topSpeed) speed += accelleration;
             timeBar.HideBar();
-
             switch (direction)
             {
                 case Direction.North:
@@ -114,6 +110,5 @@ public class Lawnmower : MonoBehaviour
     {
         var percent = 100 * (countDown / initialCountDown);
         timeBar.SetBarValue((int)percent);
-        //Debug.Log($"lawnmower charge %: {percent}");
     }
 }
