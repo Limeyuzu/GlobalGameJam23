@@ -63,9 +63,6 @@ public class GardenTile : MonoBehaviour
     private void CutDownWeed()
     {
         _growthValue = 0;
-        _weed.SetActive(false);
-        var currentScale = _weed.transform.localScale;
-        _weed.transform.localScale = new Vector3(currentScale.x, _growthValue, currentScale.z);
     }
 
     private void Start()
