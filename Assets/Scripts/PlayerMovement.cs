@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    float moveDelay = 0.4f;
+    float moveDelay = 0.2f;
     float moveWaitTime = 0f;
     float gridSpacing = 1f;
     Vector3 targetPosition;
-    float speed = 8f;
+    float speed = 7f;
     Vector2Int gridPosition;
+    Vector3 moveDirectionVector;
+    string moveDirection;
+    public Transform weedyModel;
+    float weedyRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +26,49 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool forwardInput = Input.GetKey("up");
-        bool backwardInput = Input.GetKey("down");
-        bool rightInput = Input.GetKey("right");
-        bool leftInput = Input.GetKey("left");
+        SetMoveDirection();
 
-        Move(forwardInput, backwardInput, rightInput, leftInput);
+        if (moveWaitTime >= moveDelay)
+        {
+            if (canMakeMove(moveDirection)) {
+                targetPosition = transform.position + (moveDirectionVector * gridSpacing);
+                moveWaitTime = 0f;
+                setGridPosition(moveDirection);
+                EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+            }
+        }
         moveWaitTime += Time.deltaTime;
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+        weedyModel.transform.rotation = Quaternion.identity;
+        weedyModel.transform.Rotate(0, weedyRotation, 0);
+    }
+
+    private void setGridPosition(string moveDirection)
+    {
+        if(moveDirection=="forward")
+        {
+            gridPosition.y++;
+            return;
+        }
+
+        if (moveDirection == "backward")
+        {
+            gridPosition.y--;
+            return;
+        }
+
+        if (moveDirection == "left")
+        {
+            gridPosition.x--;
+            return;
+        }
+
+        if (moveDirection == "right")
+        {
+            gridPosition.x++;
+            return;
+        }
 
     }
 
@@ -51,55 +89,43 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    void Move(bool forwardInput, bool backwardInput, bool rightInput, bool leftInput)
+    void SetMoveDirection()
     {
-        if (moveWaitTime >= moveDelay)
-        {
+        bool forwardInput = Input.GetKey("up");
+        bool backwardInput = Input.GetKey("down");
+        bool rightInput = Input.GetKey("right");
+        bool leftInput = Input.GetKey("left");
+
             if (forwardInput)
             {
-                if (canMakeMove("forward"))
-                {
-                    targetPosition = transform.position + (transform.forward * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.y++;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                    return;
-                }
+                moveDirectionVector = transform.forward;
+                moveDirection = "forward";
+                weedyRotation = 0f; 
+                return;
             }
             if (backwardInput)
             {
-                if (canMakeMove("backward"))
-                {
-                    targetPosition = transform.position + (-transform.forward * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.y--;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                    return;
-                }
+                moveDirectionVector = -transform.forward;
+                moveDirection = "backward";
+                weedyRotation = 180f;
+            return;
             }
             if (rightInput)
             {
-                if (canMakeMove("right"))
-                {
-                    targetPosition = transform.position + (transform.right * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.x++;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                    return;
-                }
+                moveDirectionVector = transform.right;
+                moveDirection = "right";
+                weedyRotation = 90f;
+                return;
             }
             if (leftInput)
             {
-                if (canMakeMove("left"))
-                {
-                    targetPosition = transform.position + (-transform.right * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.x--;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                    return;
-                }
+                moveDirectionVector = -transform.right;
+                moveDirection = "left";
+                weedyRotation = 270f;
+            return;
             }
-        }
+
+            return;
     }
 
     private void printPosition(string key)
