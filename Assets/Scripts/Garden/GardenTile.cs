@@ -28,11 +28,11 @@ public class GardenTile : MonoBehaviour
                     OnPlayerEnter();
                 }
             });
-            EventManager.Subscribe(GameEvent.MowerMoved, (newPosition) =>
+            EventManager.Subscribe(GameEvent.MowerMoved, (mower) =>
             {
-                if ((Vector2Int)newPosition == _gridPosition)
+                if (((Lawnmower)mower).gridPosition == _gridPosition)
                 {
-                    OnMowerEnter();
+                    OnMowerEnter((Lawnmower)mower);
                 }
             });
         }
@@ -46,10 +46,18 @@ public class GardenTile : MonoBehaviour
         }
     }
 
-    public void OnMowerEnter()
+    public void OnMowerEnter(Lawnmower mower)
     {
         if (_growthValue > 0)
         {
+            if (_growthValue > 3)
+            {
+                mower.ReSpawn();
+            }
+            else if (_growthValue > 2)
+            {
+                mower.SlowerMower();
+            }
             CutDownWeed();
         }
     }
