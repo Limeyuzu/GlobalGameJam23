@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Globals
+public class Globals : MonoBehaviour
 {
-    public static readonly int gridSizeX = 10;
-    public static readonly int gridSizeY = 10;
-    public static readonly float gridSpacing = 1f;
+    public static readonly int GridSizeX = 10;
+    public static readonly int GridSizeY = 10;
 }

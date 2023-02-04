@@ -1,3 +1,4 @@
+using Assets.GenericTools.Event;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         targetPosition = transform.position;
+        EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
     }
 
     // Update is called once per frame
@@ -34,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     targetPosition = transform.position + (transform.forward * gridSpacing);
                     moveWaitTime = 0f;
-                    gridPosition.x++;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    gridPosition.y++;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (backwardInput)
@@ -44,8 +46,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     targetPosition = transform.position + (-transform.forward * gridSpacing);
                     moveWaitTime = 0f;
-                    gridPosition.x--;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    gridPosition.y--;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (rightInput)
@@ -54,8 +56,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     targetPosition = transform.position + (transform.right * gridSpacing);
                     moveWaitTime = 0f;
-                    gridPosition.y--;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    gridPosition.x++;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
             if (leftInput)
@@ -64,8 +66,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     targetPosition = transform.position + (-transform.right * gridSpacing);
                     moveWaitTime = 0f;
-                    gridPosition.y++;
-                    Assets.GenericTools.Event.EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    gridPosition.x--;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
                 }
             }
         }
@@ -77,16 +79,16 @@ public class PlayerMovement : MonoBehaviour
     private bool canMakeMove(string moveDirection) 
     {
         if (moveDirection == "forward") {
-            return gridPosition.x < Globals.gridSizeX;
+            return gridPosition.y < Globals.GridSizeY - 1;
         }
         if (moveDirection == "backward") {
-            return gridPosition.x != 0;
+            return gridPosition.y > 0;
         }
         if (moveDirection == "left") {
-            return gridPosition.y < Globals.gridSizeY;
+            return gridPosition.x > 0;
         }
         if (moveDirection == "right") {
-            return gridPosition.y != 0;
+            return gridPosition.x < Globals.GridSizeX - 1;
         }
         return false;
     }
