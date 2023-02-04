@@ -17,18 +17,27 @@ public class Lawnmower : MonoBehaviour
 
     private float yPos;
 
+    private float zPos = 0.5f;
+
     private float countDown;
 
-    private float initialCountDown = 2f;
+    float initialCountDown = 3f;
 
-    private float speed = 5f;
+    float topSpeed = 30f;
+
+    private float speed;
+
+    float accelleration = 0.1f;
+
+    int resetDistance = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        direction = (Direction)Random.Range((int)Direction.North, (int)Direction.West);
+        speed = 0f;
+        direction = (Direction)Random.Range(0, 4);
         Debug.Log(direction.ToString());
-        transform.rotation.Set(0f, 0f, 0f, 1f);
+        transform.rotation = Quaternion.identity;
         switch (direction)
         {
             case Direction.North:
@@ -43,17 +52,17 @@ public class Lawnmower : MonoBehaviour
             case Direction.East:
                 xPos = Globals.GridSizeX + 1;
                 yPos = Random.Range(0, Globals.GridSizeY);
-                transform.Rotate(0f, 90.0f, 0f);
+                transform.Rotate(0f, -90.0f, 0f);
                 break;
             case Direction.West:
                 xPos = -1;
                 yPos = Random.Range(0, Globals.GridSizeY);
-                transform.Rotate(0f, -90.0f, 0f);
+                transform.Rotate(0f, 90.0f, 0f);
                 break;
 
         }
         countDown = initialCountDown;
-        transform.position = new Vector3(xPos, 0.0f, yPos);
+        transform.position = new Vector3(xPos, zPos, yPos);
     }
 
     // Update is called once per frame
@@ -66,26 +75,27 @@ public class Lawnmower : MonoBehaviour
         }
         else
         {
+            if (speed < topSpeed) speed += accelleration;
             switch (direction)
             {
                 case Direction.North:
                     yPos += speed * Time.deltaTime;
-                    if (yPos > Globals.GridSizeY) Start();
+                    if (yPos > Globals.GridSizeY + resetDistance) Start();
                     break;
                 case Direction.South:
                     yPos -= speed * Time.deltaTime;
-                    if (yPos < 0) Start();
+                    if (yPos < -resetDistance) Start();
                     break;
                 case Direction.East:
                     xPos -= speed * Time.deltaTime;
-                    if (xPos < 0) Start();
+                    if (xPos < -resetDistance) Start();
                     break;
                 case Direction.West:
                     xPos += speed * Time.deltaTime;
-                    if (xPos > Globals.GridSizeX) Start();
+                    if (xPos > Globals.GridSizeX + resetDistance) Start();
                     break;
             }
-            transform.position = new Vector3(xPos, 0.0f, yPos);
+            transform.position = new Vector3(xPos, zPos, yPos);
             var girdPosition = new Vector2Int((int)xPos, (int)yPos);
             EventManager.Emit(GameEvent.MowerMoved, girdPosition);
         }
