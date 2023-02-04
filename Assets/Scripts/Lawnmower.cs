@@ -36,13 +36,10 @@ public class Lawnmower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< Updated upstream
+
         speed = 0f;
         direction = (Direction)Random.Range(0, 4);
-=======
-        timeBar.SetMaxBarValue(100);
-        direction = (Direction)Random.Range((int)Direction.North, (int)Direction.West);
->>>>>>> Stashed changes
+
         Debug.Log(direction.ToString());
         transform.rotation = Quaternion.identity;
         switch (direction)
@@ -83,12 +80,11 @@ public class Lawnmower : MonoBehaviour
         }
         else
         {
-<<<<<<< Updated upstream
-            if (speed < topSpeed) speed += accelleration;
-=======
+
+        if (speed < topSpeed) speed += accelleration;
+
             timeBar.HideBar();
 
->>>>>>> Stashed changes
             switch (direction)
             {
                 case Direction.North:
