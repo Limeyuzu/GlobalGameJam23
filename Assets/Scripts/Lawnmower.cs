@@ -21,25 +21,25 @@ public class Lawnmower : MonoBehaviour
 
     private float countDown;
 
-    float initialCountDown = 3f;
+    float initialCountDown = 2f;
 
     float topSpeed = 30f;
 
     private float speed;
 
-    float accelleration = 0.1f;
+    float accelleration;
 
     int resetDistance = 10;
 
     public TimeBar timeBar;
 
-    // Start is called before the first frame update
-    void Start()
+    public Vector2Int gridPosition;
+
+    public void ReSpawn()
     {
         speed = 0f;
         direction = (Direction)Random.Range(0, 4);
         timeBar.SetMaxBarValue(100);
-        Debug.Log(direction.ToString());
         transform.rotation = Quaternion.identity;
         switch (direction)
         {
@@ -66,6 +66,19 @@ public class Lawnmower : MonoBehaviour
         }
         countDown = initialCountDown;
         transform.position = new Vector3(xPos, zPos, yPos);
+        accelleration = 0.1f;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        ReSpawn();
+    }
+
+    public void SlowerMower() 
+    {
+        speed = 0f;
+        accelleration = 0.01f;
     }
 
     // Update is called once per frame
@@ -85,24 +98,24 @@ public class Lawnmower : MonoBehaviour
             {
                 case Direction.North:
                     yPos += speed * Time.deltaTime;
-                    if (yPos > Globals.GridSizeY + resetDistance) Start();
+                    if (yPos > Globals.GridSizeY + resetDistance) ReSpawn();
                     break;
                 case Direction.South:
                     yPos -= speed * Time.deltaTime;
-                    if (yPos < -resetDistance) Start();
+                    if (yPos < -resetDistance) ReSpawn();
                     break;
                 case Direction.East:
                     xPos -= speed * Time.deltaTime;
-                    if (xPos < -resetDistance) Start();
+                    if (xPos < -resetDistance) ReSpawn();
                     break;
                 case Direction.West:
                     xPos += speed * Time.deltaTime;
-                    if (xPos > Globals.GridSizeX + resetDistance) Start();
+                    if (xPos > Globals.GridSizeX + resetDistance) ReSpawn();
                     break;
             }
             transform.position = new Vector3(xPos, zPos, yPos);
-            var girdPosition = new Vector2Int((int)xPos, (int)yPos);
-            EventManager.Emit(GameEvent.MowerMoved, girdPosition);
+            gridPosition = new Vector2Int((int)xPos, (int)yPos);
+            EventManager.Emit(GameEvent.MowerMoved, this);
         }
     }
 
