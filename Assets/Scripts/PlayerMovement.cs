@@ -133,4 +133,22 @@ public class PlayerMovement : MonoBehaviour
         print($"{key}:{gridPosition}");
     }
 
+    void OnTriggerEnterr(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+            Debug.Log(contact.point);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+            Debug.Log(contact.point);
+        }
+    }
+
 }
