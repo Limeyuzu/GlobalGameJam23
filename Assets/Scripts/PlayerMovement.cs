@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     string moveDirection;
     public Transform weedyModel;
     float weedyRotation = 0f;
+    bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            weedyModel.transform.rotation = Quaternion.identity;
+            weedyModel.transform.Rotate(90f, 0, 0);
+            return;
+        }
+
         SetMoveDirection();
 
         if (moveWaitTime >= moveDelay)
@@ -133,22 +141,15 @@ public class PlayerMovement : MonoBehaviour
         print($"{key}:{gridPosition}");
     }
 
-    void OnTriggerEnterr(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
-        foreach (ContactPoint contact in collision.contacts)
+        var lawnmower = collider.gameObject.GetComponent(typeof(Lawnmower)) as Lawnmower;
+        if (lawnmower != null && moveDirection != null)
         {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-            Debug.Log(contact.point);
+            Debug.Log("game over");
+            lawnmower.SlowerMower();
+            speed = 0f;
+            isDead = true;
         }
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-            Debug.Log(contact.point);
-        }
-    }
-
 }
