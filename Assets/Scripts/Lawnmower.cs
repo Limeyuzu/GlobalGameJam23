@@ -86,7 +86,8 @@ public class Lawnmower : MonoBehaviour
                     break;
             }
             transform.position = new Vector3(xPos, 0.0f, yPos);
-            EventManager.Emit(GameEvent.MowerMoved, transform.position);
+            var girdPosition = new Vector2Int((int)xPos, (int)yPos);
+            EventManager.Emit(GameEvent.MowerMoved, girdPosition);
         }
     }
 

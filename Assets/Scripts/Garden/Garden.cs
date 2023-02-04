@@ -11,7 +11,6 @@ public class Garden : MonoBehaviour
 
     private void Start()
     {
-        SetupEventListeners();
         InitGardenTiles();
     }
 
@@ -36,26 +35,5 @@ public class Garden : MonoBehaviour
                 _gameGrid.Set(coords, gardenTile);
             }
         }
-    }
-
-    private void SetupEventListeners()
-    {
-        EventManager.Subscribe(GameEvent.PlayerMoved, (object text) =>
-        {
-            Debug.Log(text);
-        });
-        EventManager.Subscribe(GameEvent.MowerMoved, (object text) =>
-        {
-            Debug.Log(text);
-        });
-    }
-
-    private void Update()
-    {
-        GrowWeeds();
-    }
-
-    private void GrowWeeds()
-    {
     }
 }
