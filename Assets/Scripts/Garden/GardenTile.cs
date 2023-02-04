@@ -58,7 +58,6 @@ public class GardenTile : MonoBehaviour
             {
                 mower.SlowerMower();
             }
-            CutDownWeed();
             DestroyWeed();
         }
     }
