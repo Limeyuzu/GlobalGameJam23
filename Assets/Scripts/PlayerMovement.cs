@@ -27,53 +27,11 @@ public class PlayerMovement : MonoBehaviour
         bool rightInput = Input.GetKey("right");
         bool leftInput = Input.GetKey("left");
 
-
-
-        if (moveWaitTime >= moveDelay) {
-            if (forwardInput) 
-            {
-                if (canMakeMove("forward"))
-                {
-                    targetPosition = transform.position + (transform.forward * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.y++;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                }
-            }
-            if (backwardInput)
-            {
-                if (canMakeMove("backward"))
-                {
-                    targetPosition = transform.position + (-transform.forward * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.y--;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                }
-            }
-            if (rightInput)
-            {
-                if (canMakeMove("right"))
-                {
-                    targetPosition = transform.position + (transform.right * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.x++;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                }
-            }
-            if (leftInput)
-            {
-                if (canMakeMove("left"))
-                {
-                    targetPosition = transform.position + (-transform.right * gridSpacing);
-                    moveWaitTime = 0f;
-                    gridPosition.x--;
-                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
-                }
-            }
-        }
+        Move(forwardInput, backwardInput, rightInput, leftInput);
         moveWaitTime += Time.deltaTime;
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
     }
 
     private bool canMakeMove(string moveDirection) 
@@ -93,8 +51,60 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
+    void Move(bool forwardInput, bool backwardInput, bool rightInput, bool leftInput)
+    {
+        if (moveWaitTime >= moveDelay)
+        {
+            if (forwardInput)
+            {
+                if (canMakeMove("forward"))
+                {
+                    targetPosition = transform.position + (transform.forward * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.y++;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    return;
+                }
+            }
+            if (backwardInput)
+            {
+                if (canMakeMove("backward"))
+                {
+                    targetPosition = transform.position + (-transform.forward * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.y--;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    return;
+                }
+            }
+            if (rightInput)
+            {
+                if (canMakeMove("right"))
+                {
+                    targetPosition = transform.position + (transform.right * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.x++;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    return;
+                }
+            }
+            if (leftInput)
+            {
+                if (canMakeMove("left"))
+                {
+                    targetPosition = transform.position + (-transform.right * gridSpacing);
+                    moveWaitTime = 0f;
+                    gridPosition.x--;
+                    EventManager.Emit(GameEvent.PlayerMoved, gridPosition);
+                    return;
+                }
+            }
+        }
+    }
+
     private void printPosition(string key)
     {
         print($"{key}:{gridPosition}");
     }
+
 }

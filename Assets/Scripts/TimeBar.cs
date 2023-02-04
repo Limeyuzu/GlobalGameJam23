@@ -9,6 +9,7 @@ public class TimeBar : MonoBehaviour
     public Slider slider;
     public Gradient colorGradient;
     public Image fill;
+    public Transform theCamera;
 
     public void SetMaxBarValue(int maxValue) 
     {
@@ -22,5 +23,9 @@ public class TimeBar : MonoBehaviour
     {
         slider.value = value;
         fill.color = colorGradient.Evaluate(slider.normalizedValue);
+    }
+    private void Update()
+    {
+        transform.LookAt(theCamera);
     }
 }
