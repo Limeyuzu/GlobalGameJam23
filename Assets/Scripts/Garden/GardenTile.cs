@@ -59,6 +59,7 @@ public class GardenTile : MonoBehaviour
                 mower.SlowerMower();
             }
             CutDownWeed();
+            DestroyWeed();
         }
     }
 
@@ -67,8 +68,7 @@ public class GardenTile : MonoBehaviour
         _growthValue = 1;
     }
 
-
-    private void CutDownWeed()
+    private void DestroyWeed()
     {
         _growthValue = 0;
     }
