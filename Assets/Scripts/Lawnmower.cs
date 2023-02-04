@@ -31,11 +31,18 @@ public class Lawnmower : MonoBehaviour
 
     int resetDistance = 10;
 
+    public TimeBar timeBar;
+
     // Start is called before the first frame update
     void Start()
     {
+<<<<<<< Updated upstream
         speed = 0f;
         direction = (Direction)Random.Range(0, 4);
+=======
+        timeBar.SetMaxBarValue(100);
+        direction = (Direction)Random.Range((int)Direction.North, (int)Direction.West);
+>>>>>>> Stashed changes
         Debug.Log(direction.ToString());
         transform.rotation = Quaternion.identity;
         switch (direction)
@@ -70,12 +77,18 @@ public class Lawnmower : MonoBehaviour
     {
         if (countDown > 0)
         {
+            timeBar.ShowBar();
             countDown -= Time.deltaTime;
             showChargebar();
         }
         else
         {
+<<<<<<< Updated upstream
             if (speed < topSpeed) speed += accelleration;
+=======
+            timeBar.HideBar();
+
+>>>>>>> Stashed changes
             switch (direction)
             {
                 case Direction.North:
@@ -104,6 +117,7 @@ public class Lawnmower : MonoBehaviour
     void showChargebar()
     {
         var percent = 100 * (countDown / initialCountDown);
+        timeBar.SetBarValue((int)percent);
         //Debug.Log($"lawnmower charge %: {percent}");
     }
 }

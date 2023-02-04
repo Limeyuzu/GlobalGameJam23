@@ -24,8 +24,11 @@ public class TimeBar : MonoBehaviour
         slider.value = value;
         fill.color = colorGradient.Evaluate(slider.normalizedValue);
     }
+
+    public void HideBar() { gameObject.SetActive(false); }
+    public void ShowBar() { gameObject.SetActive(true); }
     private void Update()
     {
-        transform.LookAt(theCamera);
+        transform.LookAt(theCamera, -Vector3.up);
     }
 }
