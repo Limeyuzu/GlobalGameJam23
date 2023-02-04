@@ -77,8 +77,7 @@ public class Lawnmower : MonoBehaviour
 
     public void SlowerMower() 
     {
-        speed = 0f;
-        accelleration = 0.01f;
+        speed = 0.1f;
     }
 
     // Update is called once per frame
