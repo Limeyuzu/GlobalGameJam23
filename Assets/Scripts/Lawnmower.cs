@@ -24,27 +24,26 @@ public class Lawnmower : MonoBehaviour
     void Start()
     {
         direction = (Direction)(int)Random.Range(0, 3);
-        Debug.Log(direction.ToString());
         transform.rotation.Set(0f, 0f, 0f, 1f);
         switch (direction)
         {
             case Direction.North:
-                xPos = -Random.Range(0, Globals.gridSizeX - 1);
+                xPos = -Random.Range(0, Globals.GridSizeX - 1);
                 yPos = -1;
                 break;
             case Direction.South:
-                xPos = -Random.Range(0, Globals.gridSizeX - 1);
-                yPos = Globals.gridSizeY + 1;
+                xPos = -Random.Range(0, Globals.GridSizeX - 1);
+                yPos = Globals.GridSizeY + 1;
                 transform.Rotate(0f, 180.0f, 0f);
                 break;
             case Direction.East:
-                xPos = -Globals.gridSizeX - 1;
-                yPos = Random.Range(0, Globals.gridSizeY);
+                xPos = -Globals.GridSizeX - 1;
+                yPos = Random.Range(0, Globals.GridSizeY);
                 transform.Rotate(0f, 90.0f, 0f);
                 break;
             case Direction.West:
                 xPos = 1;
-                yPos = Random.Range(0, Globals.gridSizeY);
+                yPos = Random.Range(0, Globals.GridSizeY);
                 transform.Rotate(0f, -90.0f, 0f);
                 break;
 
@@ -66,7 +65,7 @@ public class Lawnmower : MonoBehaviour
             {
                 case Direction.North:
                     yPos += speed * Time.deltaTime;
-                    if (yPos > Globals.gridSizeY) Start();
+                    if (yPos > Globals.GridSizeY) Start();
                     break;
                 case Direction.South:
                     yPos -= speed * Time.deltaTime;
@@ -78,7 +77,7 @@ public class Lawnmower : MonoBehaviour
                     break;
                 case Direction.West:
                     xPos -= speed * Time.deltaTime;
-                    if (xPos < Globals.gridSizeX) Start();
+                    if (xPos < Globals.GridSizeX) Start();
                     break;
             }
             transform.position = new Vector3(xPos, 0.0f, yPos);
