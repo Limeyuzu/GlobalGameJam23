@@ -238,6 +238,12 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!4 &514271089 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3484838961504428356, guid: 4c758b98df42ddc42a0733baaa2fb138,
+    type: 3}
+  m_PrefabInstance: {fileID: 540584744}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &540584744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250,6 +256,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 260520738197818739, guid: 4c758b98df42ddc42a0733baaa2fb138,
+        type: 3}
+      propertyPath: weedyModel
+      value: 
+      objectReference: {fileID: 514271089}
     - target: {fileID: 260520738197818751, guid: 4c758b98df42ddc42a0733baaa2fb138,
         type: 3}
       propertyPath: m_RootOrder

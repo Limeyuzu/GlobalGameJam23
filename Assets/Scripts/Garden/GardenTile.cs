@@ -14,6 +14,8 @@ public class GardenTile : MonoBehaviour, IGameGridTile
 
     private Vector2Int? _gridPosition;
     [SerializeField] float _growthValue = 0; //private
+    private Material _dirtMaterialInstance;
+    private Material _grassMaterialInstance;
 
     public float GetGrowthValue() => _growthValue;
     public bool IsGrowing() => _growthValue >= 1;
@@ -80,6 +82,12 @@ public class GardenTile : MonoBehaviour, IGameGridTile
     private void Start()
     {
         GrowthRate *= 1 + Random.Range(-GrowthRandomness, GrowthRandomness);
+
+        // randomise the texture offset to break up repeating patterns
+        _dirtMaterialInstance = Instantiate(DirtMaterial);
+        _dirtMaterialInstance.mainTextureOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
+        _grassMaterialInstance = Instantiate(GrassMaterial);
+        _grassMaterialInstance.mainTextureOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
     }
 
     private void Update()
@@ -99,7 +107,8 @@ public class GardenTile : MonoBehaviour, IGameGridTile
 
     private void UpdateMaterial()
     {
-        var materialToUse = _growthValue <= 0 ? DirtMaterial : GrassMaterial;
-        GetComponent<MeshRenderer>().material = materialToUse;
+        var meshRenderer = GetComponent<MeshRenderer>();
+        var materialToUse = _growthValue <= 0 ? _dirtMaterialInstance : _grassMaterialInstance;
+        meshRenderer.material = materialToUse;
     }
 }
