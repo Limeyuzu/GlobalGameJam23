@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 43359adb1be2adf4eb8d7d9a073f89ca, type: 2}
+  - {fileID: 2100000, guid: e45c0371738e56d4d87965b7a696cc3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b1de6d5e289e46a37785d5cd575ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirtMaterial: {fileID: 2100000, guid: 43359adb1be2adf4eb8d7d9a073f89ca, type: 2}
-  GrassMaterial: {fileID: 2100000, guid: 8430ba79af2529d4d845788d4766aa8b, type: 2}
+  DirtMaterial: {fileID: 2100000, guid: e45c0371738e56d4d87965b7a696cc3b, type: 2}
+  GrassMaterial: {fileID: 2100000, guid: f10a474e508c92f45964e317300aef50, type: 2}
   GrowthRate: 0.1
   GrowthRandomness: 0.3
   MaxGrowth: 3
