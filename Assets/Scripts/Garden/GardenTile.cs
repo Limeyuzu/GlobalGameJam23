@@ -54,7 +54,7 @@ public class GardenTile : MonoBehaviour, IGameGridTile
         {
             if (_growthValue > 3)
             {
-                mower.ReSpawn();
+                mower.SlowerMower(0.2f);
             }
             else if (_growthValue > 2)
             {

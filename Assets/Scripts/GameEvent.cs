@@ -5,4 +5,5 @@ public enum GameEvent
     ScoreIncremented,
     WeedCreated,
     WeedDestroyed,
+    GameOver,
 }

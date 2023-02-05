@@ -75,9 +75,10 @@ public class Lawnmower : MonoBehaviour
         ReSpawn();
     }
 
-    public void SlowerMower() 
+    public void SlowerMower(float newCountDown = 0f) 
     {
         speed = 0.1f;
+        countDown = newCountDown;
     }
 
     // Update is called once per frame

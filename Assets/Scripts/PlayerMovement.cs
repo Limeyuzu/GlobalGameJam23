@@ -150,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
             lawnmower.SlowerMower();
             speed = 0f;
             isDead = true;
+            EventManager.Emit(GameEvent.GameOver);
         }
     }
 }
