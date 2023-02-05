@@ -35,6 +35,10 @@ public class Lawnmower : MonoBehaviour
 
     public Vector2Int gridPosition;
 
+    public AudioSource lawnmowerStart;
+
+    public AudioSource lawnmowerRunning;
+
     public void ReSpawn()
     {
         speed = 0f;
@@ -73,6 +77,7 @@ public class Lawnmower : MonoBehaviour
     void Start()
     {
         ReSpawn();
+        lawnmowerStart.Play();
     }
 
     public void SlowerMower(float newCountDown = 0f) 
@@ -92,6 +97,8 @@ public class Lawnmower : MonoBehaviour
         }
         else
         {
+            lawnmowerStart.Stop();
+            lawnmowerRunning.Play();
             if (speed < topSpeed) speed += accelleration;
             timeBar.HideBar();
             switch (direction)
