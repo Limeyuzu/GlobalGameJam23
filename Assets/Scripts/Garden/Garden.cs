@@ -11,6 +11,7 @@ public class Garden : MonoBehaviour
     [SerializeField] GardenTile GardenTilePrefab;
 
     private IGameGrid<GardenTile> _gameGrid;
+    private bool gameOver;
 
     private void Start()
     {
@@ -36,11 +37,16 @@ public class Garden : MonoBehaviour
                 }
             }
         });
+
+        EventManager.Subscribe(GameEvent.GameOver, _ =>
+        {
+            gameOver = true;
+        });
     }
 
     IEnumerator updateScore()
     {
-        while (true)
+        while (!gameOver)
         {
             EventManager.Emit(GameEvent.ScoreIncremented, getCurrentScoreToIncrement());
 
