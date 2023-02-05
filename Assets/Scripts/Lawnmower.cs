@@ -39,8 +39,13 @@ public class Lawnmower : MonoBehaviour
 
     public AudioSource lawnmowerRunning;
 
+    private bool alreadyMoving = false;
+
     public void ReSpawn()
     {
+        lawnmowerRunning.Stop();
+        lawnmowerStart.Play();
+        alreadyMoving = false;
         speed = 0f;
         direction = (Direction)Random.Range(0, 4);
         timeBar.SetMaxBarValue(100);
@@ -97,8 +102,11 @@ public class Lawnmower : MonoBehaviour
         }
         else
         {
-            lawnmowerStart.Stop();
-            lawnmowerRunning.Play();
+            if(!alreadyMoving){
+                alreadyMoving = true;
+                lawnmowerStart.Stop();
+                lawnmowerRunning.Play();
+            }
             if (speed < topSpeed) speed += accelleration;
             timeBar.HideBar();
             switch (direction)
